@@ -11,4 +11,4 @@ class Point:
         return self.y
     
     def midpoint(p : 'Point', q : 'Point') -> 'Point':
-        return Point(p.getX() + q.getX() / 2, p.getY() + q.getY() / 2)
+        return Point((p.getX() + q.getX()) / 2, (p.getY() + q.getY()) / 2)
