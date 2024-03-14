@@ -31,7 +31,7 @@ class Input:
         control_points: list[Point] = []
         for i in range(order + 1):
             print("Input coordinate (x, y) of control point P_", i)
-            x, y = list(map(int, input().split()))
+            x, y = list(map(float, input().split()))
             point = Point(x, y)
             control_points.append(point)
 

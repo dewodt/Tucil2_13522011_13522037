@@ -11,6 +11,10 @@ def main():
         result = Solve()
         result.solve_brute_force(input)
         result.print_solution()
+    else:
+        result = Solve()
+        result.solve_dnc(input)
+        result.print_solution()
 
 
 # Run main program
