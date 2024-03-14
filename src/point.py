@@ -6,9 +6,9 @@ class Point:
 
     def getX(self):
         return self.x
-    
+
     def getY(self):
         return self.y
-    
-    def midpoint(p : 'Point', q : 'Point') -> 'Point':
+
+    def midpoint(p: "Point", q: "Point") -> "Point":
         return Point(p.getX() + q.getX() / 2, p.getY() + q.getY() / 2)
