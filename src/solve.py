@@ -29,7 +29,7 @@ class Solve:
             x, y = 0.0, 0.0
 
             # Calculate B(t) = sum from 0 to n nCi * (1-t)^(n-i) * t^i * P_i
-            for i in range(order):
+            for i in range(order+1):
                 coefficient = comb(order, i) * ((1 - t) ** (order - i)) * (t**i)
                 x += coefficient * control_points[i].x
                 y += coefficient * control_points[i].y
@@ -46,6 +46,53 @@ class Solve:
         # Set the solution
         self.duration = timeEnd - timeStart
         self.solution = solution
+
+    def solve_brute_force_optimized(self, input:Input):
+        # Start time
+        timeStart = time.time()
+
+        # Initialize
+        order = input.get_order()
+        steps = input.get_steps()
+        control_points = input.get_control_points()
+        solution: list[Point] = []
+        combination : list[int] = [None for i in range (order//2+1)]
+
+        # Precompute
+        for i in range(order//2 + 1):
+            combination[i] = comb(order, i)
+
+        if (order%2==1):
+            combination.append(combination[len(combination)-1])
+
+        for i in range (order//2-1, -1, -1):
+            combination.append(combination[i])
+
+        # Iterate 0 <= t <= 1 in steps
+        for t in [i / steps for i in range(steps)]:
+            # Use formula to calculate brute force
+            x, y = 0.0, 0.0
+            coeficient = (1-t)**order
+            multiply = t/(1-t)
+
+            for i in range(order+1):
+                x += combination[i] * coeficient * control_points[i].x
+                y += combination[i] * coeficient * control_points[i].y
+                coeficient *= multiply
+
+            # Create new point
+            bt = Point(x, y)
+
+            # Append to solution
+            solution.append(bt)
+
+        # End time
+        timeEnd = time.time()
+
+        # Set the solution
+        self.duration = timeEnd - timeStart
+        self.solution = solution        
+
 
     @staticmethod
     def dnc(remaining_depth: int, points: list[Point]) -> list[Point]:
