@@ -6,16 +6,17 @@ class Draw():
     fullSize : bool
 
     def __init__(self, all_positive):
-        Draw.t.screen.screensize(1600, 900)
-        Draw.t.speed(8)
+        Draw.t.speed(10)
+        Draw.t.hideturtle()
         self.fullSize = all_positive
         if (self.fullSize):
-            Draw.t.screen.setworldcoordinates(0,0,1600,900)
+            Draw.t.screen.setworldcoordinates(0,0,400,400)
         Draw.t.screen.title("Bezier Gesserit")
         Draw.t.screen.bgcolor("#000000")
 
     @staticmethod
     def drawDotsFromList(l : list[Point], color : str, size : int):
+        # Draw.t.hideturtle()
         Draw.t.penup()
         for i in range(len(l)):
             Draw.t.setposition(l[i].getX(), l[i].getY())
@@ -38,10 +39,12 @@ class Draw():
 
     @staticmethod
     def drawBruteForceCurve(l : list[Point]):
-        Draw.drawLinesFromList(l, "#8F1D26", 7)
-        Draw.drawDotsFromList(l, "#AE787E", 7) # Drive pink : "#E84298"
+        Draw.t.hideturtle()
+        Draw.drawLinesFromList(l, "#8F1D26", 9)
+        Draw.drawDotsFromList(l, "#AE787E", 9) # Drive pink : "#E84298"
 
     @staticmethod
     def drawDNCCurve(l : list[Point]):
-        Draw.drawLinesFromList(l, "#8F1D26", 7)
-        Draw.drawDotsFromList(l, "#AE787E", 7) # Drive pink : "#E84298"
+        Draw.t.hideturtle()
+        Draw.drawLinesFromList(l, "#8F1D26", 9)
+        Draw.drawDotsFromList(l, "#AE787E", 9) # Drive pink : "#E84298"

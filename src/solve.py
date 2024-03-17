@@ -3,7 +3,7 @@ from math import comb
 
 from input import Input
 from point import Point
-
+from draw import Draw
 
 class Solve:
     duration: float  # Calculation duration
@@ -55,6 +55,7 @@ class Solve:
         order = input.get_order()
         steps = input.get_steps()
         control_points = input.get_control_points()
+        end = input.control_points[input.order]
         solution: list[Point] = []
         combination : list[int] = [None for i in range (order//2+1)]
 
@@ -86,6 +87,9 @@ class Solve:
             # Append to solution
             solution.append(bt)
 
+        # Append end point
+        solution.append(end)
+
         # End time
         timeEnd = time.time()
 
@@ -95,7 +99,7 @@ class Solve:
 
 
     @staticmethod
-    def dnc(remaining_depth: int, points: list[Point]) -> list[Point]:
+    def dnc(remaining_depth: int, points: list[Point]) -> list[Point]:     
         # Left & right next points
         left_points = []
         right_points = []
@@ -103,6 +107,9 @@ class Solve:
         # Get middle point from points and fill left & right points
         temp = points.copy()
         while len(temp) > 1:
+            # Draw in GUI
+            Draw.drawDotsFromList(temp, "#138757", 7)
+            Draw.drawLinesFromList(temp, "#2d3030", 3)
             left_points.append(temp[0])
             right_points.insert(0, temp[-1])
             temp = [Point.midpoint(temp[i], temp[i + 1]) for i in range(len(temp) - 1)]
@@ -113,6 +120,7 @@ class Solve:
             #     temp[i].print()
             # print("=====")
         middle = temp
+        Draw.drawDotsFromList(temp, "#AE787E", 9)
         left_points.append(middle[0])
         right_points.insert(0, middle[0])
 
@@ -144,12 +152,17 @@ class Solve:
         steps = input.get_steps()
         control_points = input.get_control_points()
         solution: list[Point] = Solve.dnc(steps, control_points)
+        start = control_points[0]
+        end = control_points[input.get_order()]
 
         # End time
         timeEnd = time.time()
 
         # Set the solution
         self.duration = timeEnd - timeStart
+
+        solution.insert(0, start)
+        solution.append(end)
         self.solution = solution
 
     def get_duration(self) -> int:
@@ -159,11 +172,11 @@ class Solve:
         return self.solution
 
     def print_solution(self):
-        # Print duration
-        print("Calculation duration:", self.duration, "seconds")
-
         # Print points
         print("Result:")
         for i in range(len(self.solution)):
             t = i / len(self.solution)
             print(f"B({t}) = ({self.solution[i].x}, {self.solution[i].y})")
+
+        # Print duration
+        print("Calculation duration:", self.duration, "seconds")

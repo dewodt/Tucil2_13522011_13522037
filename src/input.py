@@ -1,4 +1,5 @@
 from point import Point
+import sys
 
 
 class Input:
@@ -6,8 +7,12 @@ class Input:
     order: int  # Order of Bezier Curve
     control_points: list[Point]  # Array of control points
     steps: int  # Steps for brute force / DNC
+    all_positive: bool
+    scale: float
 
     def __init__(self):
+        self.all_positive = True
+
         # Type of algorithm
         print("Choose algorithm:")
         print("1. Brute Force")
@@ -29,11 +34,28 @@ class Input:
 
         # Array of control points
         control_points: list[Point] = []
+
+        xMax = sys.float_info.min
+        xMin = sys.float_info.max
+        yMax = sys.float_info.min
+        yMin = sys.float_info.max
         for i in range(order + 1):
             print("Input coordinate (x, y) of control point P_", i)
             x, y = list(map(float, input().split()))
+            if (x < 0 or y < 0):   
+                self.all_positive = False
+            xMax = max(x, xMax)
+            xMin = min(x, xMin)
+            yMax = max(y, yMax)
+            yMin = min(y, yMin)
             point = Point(x, y)
             control_points.append(point)
+
+        # Calculate scale if needed
+        if (xMax - xMin > 400 or yMax - yMin > 400):
+            self.scale = min(390/(xMax-xMin), 390/(yMax-yMin))
+        else:
+            self.scale = 1
 
         # Steps
         steps = int(input("Enter number of steps/iteration for brute force / DNC: "))

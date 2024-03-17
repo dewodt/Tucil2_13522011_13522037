@@ -18,3 +18,7 @@ class Point:
     @staticmethod
     def midpoint(p: "Point", q: "Point") -> "Point":
         return Point(((p.getX() + q.getX())) / 2.0, ((p.getY() + q.getY())) / 2.0)
+
+    def scale(self, scale : float):
+        self.x *= scale
+        self.y *= scale
