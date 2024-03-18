@@ -22,14 +22,14 @@ def main():
         # Solve the curve
         result = Solve()
 
-        # Print solution
-        result.print_solution(input.scale)
-
         # Draw in GUI
         Draw.drawControlPoints(input.control_points)
         result.solve_brute_force_optimized(input)
         Draw.drawBruteForceCurve(result.solution)
         Draw.t.hideturtle()
+
+        # Print solution
+        result.print_solution(input.scale)
 
         # End time
         timeEnd = time.time()
