@@ -1,3 +1,4 @@
+import time
 from input import Input
 from solve import Solve
 from draw import Draw
@@ -14,23 +15,50 @@ def main():
     if input.is_brute_force():
         for i in range(len(input.control_points)):
             input.control_points[i].scale(input.scale)
+
+        # Start time
+        timeStart = time.time()
+
+        # Solve the curve
         result = Solve()
+
+        # Print solution
+        result.print_solution(input.scale)
+
+        # Draw in GUI
         Draw.drawControlPoints(input.control_points)
         result.solve_brute_force_optimized(input)
         Draw.drawBruteForceCurve(result.solution)
         Draw.t.hideturtle()
-        result.print_solution()
+
+        # End time
+        timeEnd = time.time()
+        duration = timeEnd - timeStart
+        print("Calculation duration:", duration, "seconds")
 
     else:
         for i in range(len(input.control_points)):
             input.control_points[i].scale(input.scale)
-        # print(input.scale)
+
+        # Start time
+        timeStart = time.time()
+
+        # Solve the curve
         result = Solve()
+
+        # Draw in GUI
         Draw.drawControlPoints(input.control_points)
         result.solve_dnc(input)
         Draw.drawDNCCurve(result.solution)
         Draw.t.hideturtle()
-        result.print_solution()
+
+        # Print the Solution
+        result.print_solution(input.scale)
+
+        # End time
+        timeEnd = time.time()
+        duration = timeEnd - timeStart
+        print("Calculation duration:", duration, "seconds")
 
     draw.t.screen.mainloop()
 

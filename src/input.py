@@ -51,11 +51,8 @@ class Input:
             point = Point(x, y)
             control_points.append(point)
 
-        # Calculate scale if needed
-        if (xMax - xMin > 400 or yMax - yMin > 400):
-            self.scale = min(390/(xMax-xMin), 390/(yMax-yMin))
-        else:
-            self.scale = 1
+        # Calculate scale
+        self.scale = min(390/(xMax-xMin), 390/(yMax-yMin))     
 
         # Steps
         steps = int(input("Enter number of steps/iteration for brute force / DNC: "))

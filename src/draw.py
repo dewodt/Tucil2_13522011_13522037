@@ -6,7 +6,7 @@ class Draw():
     fullSize : bool
 
     def __init__(self, all_positive):
-        Draw.t.speed(10)
+        Draw.t.speed(20)
         Draw.t.hideturtle()
         self.fullSize = all_positive
         if (self.fullSize):
@@ -16,7 +16,7 @@ class Draw():
 
     @staticmethod
     def drawDotsFromList(l : list[Point], color : str, size : int):
-        # Draw.t.hideturtle()
+        Draw.t.hideturtle()
         Draw.t.penup()
         for i in range(len(l)):
             Draw.t.setposition(l[i].getX(), l[i].getY())

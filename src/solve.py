@@ -1,4 +1,3 @@
-import time
 from math import comb
 
 from input import Input
@@ -6,17 +5,12 @@ from point import Point
 from draw import Draw
 
 class Solve:
-    duration: float  # Calculation duration
     solution: list[Point]  # Array of result points
 
     def __init__(self):
-        self.duration = 0.0
         self.solution = []
 
     def solve_brute_force(self, input: Input):
-        # Start time
-        timeStart = time.time()
-
         # Initialize
         order = input.get_order()
         steps = input.get_steps()
@@ -40,17 +34,10 @@ class Solve:
             # Append to solution
             solution.append(bt)
 
-        # End time
-        timeEnd = time.time()
-
         # Set the solution
-        self.duration = timeEnd - timeStart
         self.solution = solution
 
     def solve_brute_force_optimized(self, input:Input):
-        # Start time
-        timeStart = time.time()
-
         # Initialize
         order = input.get_order()
         steps = input.get_steps()
@@ -90,11 +77,7 @@ class Solve:
         # Append end point
         solution.append(end)
 
-        # End time
-        timeEnd = time.time()
-
         # Set the solution
-        self.duration = timeEnd - timeStart
         self.solution = solution        
 
 
@@ -113,23 +96,11 @@ class Solve:
             left_points.append(temp[0])
             right_points.insert(0, temp[-1])
             temp = [Point.midpoint(temp[i], temp[i + 1]) for i in range(len(temp) - 1)]
-            # print("=====")
-            # print("Remaining depth:", remaining_depth)
-            # print("Len: ", len(temp))
-            # for i in range(len(temp)):
-            #     temp[i].print()
-            # print("=====")
+
         middle = temp
         Draw.drawDotsFromList(temp, "#AE787E", 9)
         left_points.append(middle[0])
         right_points.insert(0, middle[0])
-
-        # for i in range(len(middle)):
-        #     middle[i].print()
-        # for i in range(len(left_points)):
-        #     left_points[i].print()
-        # for i in range(len(right_points)):
-        #     right_points[i].print()
 
         # If current remaining depth = 1 (means current is last), return middle point
         if remaining_depth == 1:
@@ -144,39 +115,23 @@ class Solve:
             return left + middle + right
 
     def solve_dnc(self, input: Input):
-        # Start time
-        timeStart = time.time()
-
         # Initialize
-        # order = input.get_order()
         steps = input.get_steps()
         control_points = input.get_control_points()
         solution: list[Point] = Solve.dnc(steps, control_points)
         start = control_points[0]
         end = control_points[input.get_order()]
 
-        # End time
-        timeEnd = time.time()
-
-        # Set the solution
-        self.duration = timeEnd - timeStart
-
         solution.insert(0, start)
         solution.append(end)
         self.solution = solution
 
-    def get_duration(self) -> int:
-        return self.duration
-
     def get_solution(self) -> list[Point]:
         return self.solution
 
-    def print_solution(self):
+    def print_solution(self, scale : float):
         # Print points
         print("Result:")
         for i in range(len(self.solution)):
             t = i / len(self.solution)
-            print(f"B({t}) = ({self.solution[i].x}, {self.solution[i].y})")
-
-        # Print duration
-        print("Calculation duration:", self.duration, "seconds")
+            print(f"B({t}) = ({self.solution[i].x / scale}, {self.solution[i].y / scale})")
